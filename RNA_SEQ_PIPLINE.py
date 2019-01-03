@@ -113,11 +113,11 @@ else:
             os.environ["Path_to_Ref_Genome"] = Path_to_Ref_Genome 
             os.environ["Path_to_ref_GTF_file"] = Path_to_ref_GTF_file
 
-            print os.environ["prefix"] 
-            print os.environ["R1_out"] 
-            print os.environ["R2_out"] 
-            print os.environ["Path_to_Ref_Genome"]  
-            print os.environ["Path_to_ref_GTF_file"] 
+            #print os.environ["prefix"] 
+            #print os.environ["R1_out"] 
+            #print os.environ["R2_out"] 
+            #print os.environ["Path_to_Ref_Genome"]  
+            #print os.environ["Path_to_ref_GTF_file"] 
 
             os.system('STAR  --runMode alignReads --genomeDir $Path_to_Ref_Genome --genomeLoad NoSharedMemory --readFilesIn $R1_out $R2_out --readFilesCommand "zcat -fc" --outStd SAM --runThreadN 18 --outFilterMultimapNmax 10 --outSAMmode Full --outSAMattributes Standard --outSAMstrandField intronMotif --outFileNamePrefix $prefix --outReadsUnmapped Fastx --outFilterScoreMinOverLread 0.9 --outFilterMismatchNoverLmax 0.05 --outFilterMismatchNmax 4 --sjdbGTFfile $Path_to_ref_GTF_file --sjdbOverhang 100 --outSAMtype BAM SortedByCoordinate  --runDirPerm All_RWX')
 
