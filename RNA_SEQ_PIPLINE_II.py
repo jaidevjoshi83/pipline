@@ -4,9 +4,6 @@
 #                                   #
 #####################################
 
-
-
-
 import os, glob, sys
 import argparse
 
@@ -28,6 +25,7 @@ Path_to_ref_GTF_file = args['sjdbGTFfile']
 
 files = glob.glob(path_to_raw_files+'/*.fastq')
 
+
 if not os.path.exists(path_to_out_files+'/Result_files'):
     os.makedirs(path_to_out_files+'/Result_files')
 
@@ -38,7 +36,10 @@ if not os.path.exists(path_to_out_files+'/Result_files'+'/STAR_Out_files'):
     os.makedirs(path_to_out_files+'/Result_files'+'/STAR_Out_files')
 
 
+
 for file in files:
+
+
 
     if Seq_data_type == 'SE':
 
@@ -51,21 +52,26 @@ for file in files:
         os.environ["In_file"] = file
         os.environ["Out_file"] = path_to_out_files+'/Result_files'+'/FASTP_Out_files/'+file.split('/')[len(file.split('/'))-1].split('.')[len(file.split('/')[len(file.split('/'))-1].split('.'))-2]+'_Out.fastq'
         os.system('fastp -w 22 -i $In_file -o $Out_file')
-
+        
+        
         print """
         #############################################################
         #                  Step 2   RUNNING STAR                    #
         #############################################################
         """
+        
+        Dir_name = file.split('/')[len(file.split('/'))-1].split('.')[0] 
 
-        os.environ["in_file"] = file 
-        os.environ["prefix"] = path_to_out_files+'/Result_files'+'/STAR_Out_files/'+file.split('/')[len(file.split('/'))-1].split('_Out')[0]+'_Out'
+        if not os.path.exists(path_to_out_files+'/Result_files'+'/STAR_Out_files/'+Dir_name):
+            os.makedirs(path_to_out_files+'/Result_files'+'/STAR_Out_files/'+Dir_name)
+       
+
+        os.environ["prefix"] = path_to_out_files+'/Result_files'+'/STAR_Out_files/'+Dir_name+'/'+file.split('/')[len(file.split('/'))-1].split('_Out')[0]+'_Out'
         os.environ["Path_to_Ref_Genome"] = Path_to_Ref_Genome 
         os.environ["Path_to_ref_GTF_file"] = Path_to_ref_GTF_file
 
-        os.system('STAR  --runMode alignReads --genomeDir $Path_to_Ref_Genome --genomeLoad NoSharedMemory --readFilesIn $in_file --readFilesCommand "zcat -fc" --outStd SAM --runThreadN 18 --outFilterMultimapNmax 10 --outSAMmode Full --outSAMattributes Standard --outSAMstrandField intronMotif --outFileNamePrefix $prefix --outReadsUnmapped Fastx --outFilterScoreMinOverLread 0.9 --outFilterMismatchNoverLmax 0.05 --outFilterMismatchNmax 4 --sjdbGTFfile $Path_to_ref_GTF_file --sjdbOverhang 100 --outSAMtype BAM SortedByCoordinate  --runDirPerm All_RWX')
-        os.system('rm $in_file')
-
+        os.system('STAR  --runMode alignReads --genomeDir $Path_to_Ref_Genome --genomeLoad NoSharedMemory --readFilesIn $Out_file --readFilesCommand "zcat -fc" --outStd SAM --runThreadN 18 --outFilterMultimapNmax 10 --outSAMmode Full --outSAMattributes Standard --outSAMstrandField intronMotif --outFileNamePrefix $prefix --outReadsUnmapped Fastx --outFilterScoreMinOverLread 0.9 --outFilterMismatchNoverLmax 0.05 --outFilterMismatchNmax 4 --sjdbGTFfile $Path_to_ref_GTF_file --sjdbOverhang 100 --outSAMtype BAM SortedByCoordinate  --runDirPerm All_RWX')
+        os.system('rm $Out_file')
 
     else:
         print """
