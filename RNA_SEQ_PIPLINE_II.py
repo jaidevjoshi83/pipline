@@ -5,7 +5,6 @@
 #####################################
 
 
-
 #################### Imports ############################
 import os, glob, sys
 import argparse
@@ -47,10 +46,10 @@ if not os.path.exists(path_to_out_files+'/Result_files'+'/STRINGTIE_Out_files'):
 if not os.path.exists(path_to_out_files+'/Result_files'+'/Merged_STRINGTIE_Out_files'):
     os.makedirs(path_to_out_files+'/Result_files'+'/Merged_STRINGTIE_Out_files')
 
-####################################################################################
+##################################################################################
 
 
-######################### Main Pipline #############################################
+######################### Main Pipline ###########################################
 if Seq_data_type == 'SE':
 
     for file in files:
