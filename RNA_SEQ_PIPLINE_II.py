@@ -4,32 +4,34 @@
 #                                   #
 #####################################
 
+
+
+#################### Imports ############################
 import os, glob, sys
 import argparse
+#########################################################
 
+################## Arg parsing ##########################
 parser = argparse.ArgumentParser(description='Description of your program')
-
 parser.add_argument('-I','--InPutDir', help='Enter the path of BASE_DIRECTORY', required=True)
 parser.add_argument('-O','--OutPutDir', help='Enter the path for Out_put files', required=True)
 parser.add_argument('-P','--DataType', help='if single end SE or if paried end PE', required=False, default='SE')
 parser.add_argument('-G','--GenomeDir', help='if single end SE or if paried end PE', required=False)
 parser.add_argument('-g','--sjdbGTFfile', help='if single end SE or if paried end PE', required=False)
-
 args = vars(parser.parse_args())
+##########################################################
 
+
+################### Initial path #########################
 path_to_raw_files = args['InPutDir']
 path_to_out_files = args['OutPutDir']
 Seq_data_type = args['DataType']
 Path_to_Ref_Genome = args['GenomeDir']
 Path_to_ref_GTF_file = args['sjdbGTFfile']
+###########################################################
 
 
-files = glob.glob(path_to_raw_files+'/*.fastq')
-
-
-
-
-########################################################################################
+############# Creating Directories ###############################################
 if not os.path.exists(path_to_out_files+'/Result_files'):
     os.makedirs(path_to_out_files+'/Result_files')
 
@@ -45,9 +47,10 @@ if not os.path.exists(path_to_out_files+'/Result_files'+'/STRINGTIE_Out_files'):
 if not os.path.exists(path_to_out_files+'/Result_files'+'/Merged_STRINGTIE_Out_files'):
     os.makedirs(path_to_out_files+'/Result_files'+'/Merged_STRINGTIE_Out_files')
 
-#########################################################################################
+####################################################################################
 
 
+######################### Main Pipline #############################################
 if Seq_data_type == 'SE':
 
     for file in files:
@@ -156,7 +159,6 @@ print """
 print "creating 'merge_file_list.txt' file and generating 'stringtie_merged.gtf'"
 
 files = glob.glob(path_to_out_files+'/Result_files'+'/STRINGTIE_Out_files/*.gtf')
-
 
 merge_file = open(path_to_out_files+'/Result_files/merge_file_list.txt','w')
 
