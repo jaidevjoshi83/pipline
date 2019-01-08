@@ -1,8 +1,8 @@
-#library(ballgown)
-#library(RSkittleBrewer)
-#library(genefilter)
-#library(dplyr)
-#library(devtools)
+library(ballgown)
+library(RSkittleBrewer)
+library(genefilter)
+library(dplyr)
+library(devtools)
 
 ## Collect arguments
 args <- commandArgs(TRUE)
@@ -38,11 +38,8 @@ if("--help" %in% args) {
 ## Parse arguments (we expect the form --arg=value)
 parseArgs <- function(x) strsplit(sub("^--", "", x), "=")
 
-#print(parseArgs)
 
 argsDF <- as.data.frame(do.call("rbind", parseArgs(args)))
-
-#print (argsDF)
 argsL <- as.list(as.character(argsDF$V2))
 
 
@@ -50,47 +47,65 @@ names(argsL) <- argsDF$V1
 
 
 ## Arg1 default
-#if(is.null(args$arg1)) {
-  ## do something
-#}
+if(is.null(argsL$arg1)) {
+
+	print ("Path to the Phenotype data,.csv file is missing")  
+	quit()
+}
  
 ## Arg2 default
-#if(is.null(args$arg2)) {
-  ## do something
-#}
+if(is.null(argsL$arg2)) {
+	print("Path to the data Directory is missing")
+	quit()
+}
  
 ## Arg3 default
-#if(is.null(args$arg3)) {
-  ## do something
-#}
+if(is.null(argsL$arg3)) {
+	print("Sample pattern is missing")
+	quit()
+}
 
+if(is.null(argsL$arg4)) {
+	print('covariate is missing')
+	quit()
+}
 
+if(is.null(argsL$arg5)) {
+	print (" adjustvars is missing")
+	quit()
+}
 
-"/home/joshij/Desktop/Sample_II/Rat_organs_phenotype_Data.csv"
+if(is.null(argsL$arg6)) {
+	print ("Outfile for transcript is missing")
+	quit()
+}
 
-'/home/joshij/Desktop/Sample_II/SE_result/Result_files/Merged_STRINGTIE_Out_files'
-
-'SRR'
+if(is.null(argsL$arg7)) {
+	print ("Outfile for gene is missing")
+	quit()
+}
 
 
 
 pheno = read.csv(argsL$arg1)
 
-print (pheno)
-bg = ballgown(dataDir=argsL$arg2, samplePattern = argsL$arg2, pData=pheno)
+
+bg = ballgown(dataDir=argsL$arg2, samplePattern = argsL$arg3, pData=pheno)
+print ('ok')
+
 bg_filt  = subset(bg,"rowVars(texpr(bg)) > 1", genomesubset=TRUE)
 
 results_trans = stattest(bg_filt, feature="transcript", covariate=argsL$arg4, adjustvars=c(argsL$arg5), getFC=TRUE, meas="FPKM")
-
 results_genes = stattest(bg_filt, feature="gene", covariate=argsL$arg4, adjustvars=c(argsL$arg5), getFC=TRUE, meas="FPKM")
 
 results_transcript = data.frame(geneNames=ballgown::geneNames(bg_filt),geneIDs=ballgown::geneIDs(bg_filt),results_trans)
+
 results_transcript = arrange(results_transcript,pval)
 results_genes = arrange(results_genes,pval)
 
-write.csv(results_transcript,'/home/joshij/Desktop/Sample_II/SE_result/Expression/chrX_transcript_results.csv', row.names=FALSE)
-write.csv(results_genes, '/home/joshij/Desktop/Sample_II/SE_result/Expression/chrX_genes_results.csv', row.names=FALSE)
+write.csv(results_transcript,argsL$arg6, row.names=FALSE)
+write.csv(results_genes, argsL$arg7, row.names=FALSE)
 
 subset(results_genes,results_genes$qval<0.05)
-ubset(results_transcript,results_transcript$qval<0.05)
+subset(results_transcript,results_transcript$qval<0.05)
 
