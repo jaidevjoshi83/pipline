@@ -114,8 +114,7 @@ else:
                 #                  Step 2   RUNNING STAR    PE              #
                 #############################################################
                 """
-                print 
-
+               
         Dir_name =  n.split('/')[len(n.split('/'))-1].strip('.fastq').split('_')[0]
         if not os.path.exists(path_to_out_files+'/Result_files'+'/STAR_Out_files/'+Dir_name):
             os.makedirs(path_to_out_files+'/Result_files'+'/STAR_Out_files/'+Dir_name)
@@ -138,8 +137,6 @@ dirs = glob.glob(path_to_out_files+'/Result_files'+'/STAR_Out_files/*')
 
 for d in dirs:
     f = glob.glob(d+'/*.bam')
-
-    print f[0]
 
     os.environ["Str_out"] = path_to_out_files+'/Result_files'+'/STRINGTIE_Out_files/'+f[0].split('/')[len(f[0].split('/'))-1].split('_')[0]+'_out.gtf'
     os.environ["Str_in_file"]  = f[0]

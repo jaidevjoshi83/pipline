@@ -86,7 +86,6 @@ if(is.null(argsL$arg7)) {
 }
 
 
-
 pheno = read.csv(argsL$arg1)
 
 

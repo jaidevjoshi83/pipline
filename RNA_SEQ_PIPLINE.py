@@ -81,7 +81,7 @@ if Seq_data_type == 'SE':
 
     files = glob.glob(path_to_out_files+'/Result_files/FASTP_Out_files/*.fastq')
 
-    print files
+  
     
     if not os.path.exists(path_to_out_files+'/Result_files'+'/STAR_Out_files'):
         os.makedirs(path_to_out_files+'/Result_files'+'/STAR_Out_files')
@@ -113,12 +113,6 @@ else:
             os.environ["Path_to_Ref_Genome"] = Path_to_Ref_Genome 
             os.environ["Path_to_ref_GTF_file"] = Path_to_ref_GTF_file
 
-            #print os.environ["prefix"] 
-            #print os.environ["R1_out"] 
-            #print os.environ["R2_out"] 
-            #print os.environ["Path_to_Ref_Genome"]  
-            #print os.environ["Path_to_ref_GTF_file"] 
-
             os.system('STAR  --runMode alignReads --genomeDir $Path_to_Ref_Genome --genomeLoad NoSharedMemory --readFilesIn $R1_out $R2_out --readFilesCommand "zcat -fc" --outStd SAM --runThreadN 18 --outFilterMultimapNmax 10 --outSAMmode Full --outSAMattributes Standard --outSAMstrandField intronMotif --outFileNamePrefix $prefix --outReadsUnmapped Fastx --outFilterScoreMinOverLread 0.9 --outFilterMismatchNoverLmax 0.05 --outFilterMismatchNmax 4 --sjdbGTFfile $Path_to_ref_GTF_file --sjdbOverhang 100 --outSAMtype BAM SortedByCoordinate  --runDirPerm All_RWX')
 
 
@@ -136,7 +130,6 @@ files  = glob.glob(path_to_out_files+'/Result_files'+'/STAR_Out_files/*.bam')
 
 for f in files:
 
-    print f.split('/')[len(f.split('/'))-1].split('_')[0]+'_out.gtf'
 
     os.environ["Str_out"] = path_to_out_files+'/Result_files'+'/STRINGTIE_Out_files/'+f.split('/')[len(f.split('/'))-1].split('_')[0]+'_out.gtf'
     os.environ["Str_in_file"]  = f
