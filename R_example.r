@@ -90,12 +90,17 @@ pheno = read.csv(argsL$arg1)
 
 
 bg = ballgown(dataDir=argsL$arg2, samplePattern = argsL$arg3, pData=pheno)
-print ('ok')
+
+
 
 bg_filt  = subset(bg,"rowVars(texpr(bg)) > 1", genomesubset=TRUE)
 
+
+
 results_trans = stattest(bg_filt, feature="transcript", covariate=argsL$arg4, adjustvars=c(argsL$arg5), getFC=TRUE, meas="FPKM")
+
 results_genes = stattest(bg_filt, feature="gene", covariate=argsL$arg4, adjustvars=c(argsL$arg5), getFC=TRUE, meas="FPKM")
+
 
 results_transcript = data.frame(geneNames=ballgown::geneNames(bg_filt),geneIDs=ballgown::geneIDs(bg_filt),results_trans)
 
