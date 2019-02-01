@@ -93,7 +93,7 @@ if Seq_data_type == 'SE':
         os.environ["Path_to_Ref_Genome"] = Path_to_Ref_Genome 
         os.environ["Path_to_ref_GTF_file"] = Path_to_ref_GTF_file
 
-        os.system('STAR  --runMode alignReads --genomeDir $Path_to_Ref_Genome --genomeLoad NoSharedMemory --readFilesIn $in_file --readFilesCommand "zcat -fc" --outStd SAM --runThreadN 18 --outFilterMultimapNmax 10 --outSAMmode Full --outSAMattributes Standard --outSAMstrandField intronMotif --outFileNamePrefix $prefix --outReadsUnmapped Fastx --outFilterScoreMinOverLread 0.9 --outFilterMismatchNoverLmax 0.05 --outFilterMismatchNmax 4 --sjdbGTFfile $Path_to_ref_GTF_file --sjdbOverhang 100 --outSAMtype BAM SortedByCoordinate  --runDirPerm All_RWX')
+        os.system('STAR  --runMode alignReads --genomeDir $Path_to_Ref_Genome --genomeLoad NoSharedMemory --readFilesIn $in_file --readFilesCommand "zcat -fc" --outStd SAM --runThreadN 18 --outFilterMultimapNmax 10 --outSAMmode Full --outSAMattributes Standard --outSAMstrandField intronMotif --outFileNamePrefix $prefix --outReadsUnmapped Fastx --outFilterScoreMinOverLread 0.9 --outFilterMismatchNoverLmax 0.05 --outFilterMismatchNmax 4 --sjdbGTFfile $Path_to_ref_GTF_file  --outSAMtype BAM SortedByCoordinate  --runDirPerm All_RWX')
         os.system('rm $in_file')
 
 else:   
@@ -113,7 +113,7 @@ else:
             os.environ["Path_to_Ref_Genome"] = Path_to_Ref_Genome 
             os.environ["Path_to_ref_GTF_file"] = Path_to_ref_GTF_file
 
-            os.system('STAR  --runMode alignReads --genomeDir $Path_to_Ref_Genome --genomeLoad NoSharedMemory --readFilesIn $R1_out $R2_out --readFilesCommand "zcat -fc" --outStd SAM --runThreadN 18 --outFilterMultimapNmax 10 --outSAMmode Full --outSAMattributes Standard --outSAMstrandField intronMotif --outFileNamePrefix $prefix --outReadsUnmapped Fastx --outFilterScoreMinOverLread 0.9 --outFilterMismatchNoverLmax 0.05 --outFilterMismatchNmax 4 --sjdbGTFfile $Path_to_ref_GTF_file --sjdbOverhang 100 --outSAMtype BAM SortedByCoordinate  --runDirPerm All_RWX')
+            os.system('STAR  --runMode alignReads --genomeDir $Path_to_Ref_Genome --genomeLoad NoSharedMemory --readFilesIn $R1_out $R2_out --readFilesCommand "zcat -fc" --outStd SAM --runThreadN 18 --outFilterMultimapNmax 10 --outSAMmode Full --outSAMattributes Standard --outSAMstrandField intronMotif --outFileNamePrefix $prefix --outReadsUnmapped Fastx --outFilterScoreMinOverLread 0.9 --outFilterMismatchNoverLmax 0.05 --outFilterMismatchNmax 4 --sjdbGTFfile $Path_to_ref_GTF_file  --outSAMtype BAM SortedByCoordinate  --runDirPerm All_RWX')
 
 
 print """
